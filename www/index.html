@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MorseWave - Retro Telegraph Reimagined</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="crt-effect"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="wave-icon"></div>
+                <h1>MORSEWAVE</h1>
+            </div>
+            <div class="status-bar">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span class="status-text">READY</span>
+            </div>
+        </header>
+
+        <main class="main-grid">
+            <section class="encoder-panel panel">
+                <div class="panel-header">
+                    <h2>TRANSMITTER</h2>
+                    <div class="panel-lights">
+                        <span class="light"></span>
+                        <span class="light"></span>
+                        <span class="light"></span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="textInput">TEXT MESSAGE</label>
+                    <textarea id="textInput" placeholder="Enter your message here..." rows="4"></textarea>
+                </div>
+
+                <div class="morse-output">
+                    <label>MORSE CODE OUTPUT</label>
+                    <div id="morseOutput" class="morse-display"></div>
+                </div>
+
+                <div class="control-panel">
+                    <button id="encodeBtn" class="btn btn-primary">
+                        <span>ENCODE</span>
+                    </button>
+                    <button id="playBtn" class="btn btn-secondary">
+                        <span>▶ TRANSMIT</span>
+                    </button>
+                    <button id="copyBtn" class="btn btn-secondary">
+                        <span>📋 COPY</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="decoder-panel panel">
+                <div class="panel-header">
+                    <h2>RECEIVER</h2>
+                    <div class="panel-lights">
+                        <span class="light"></span>
+                        <span class="light"></span>
+                        <span class="light"></span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="morseInput">MORSE CODE INPUT</label>
+                    <textarea id="morseInput" placeholder="Enter morse code (. - /)..." rows="4"></textarea>
+                </div>
+
+                <div class="text-output">
+                    <label>DECODED MESSAGE</label>
+                    <div id="textOutput" class="text-display"></div>
+                </div>
+
+                <div class="control-panel">
+                    <button id="decodeBtn" class="btn btn-primary">
+                        <span>DECODE</span>
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <span>⟲ CLEAR</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="visual-panel panel">
+                <div class="panel-header">
+                    <h2>SIGNAL MONITOR</h2>
+                </div>
+                <canvas id="signalCanvas" width="600" height="200"></canvas>
+                <div class="led-indicator" id="ledIndicator"></div>
+            </section>
+
+            <section class="settings-panel panel">
+                <div class="panel-header">
+                    <h2>CONFIGURATION</h2>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="wpmSlider">
+                        SPEED (WPM): <span id="wpmValue">20</span>
+                    </label>
+                    <input type="range" id="wpmSlider" min="5" max="40" value="20" step="1">
+                </div>
+
+                <div class="setting-group">
+                    <label for="volumeSlider">
+                        VOLUME: <span id="volumeValue">50</span>%
+                    </label>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50" step="1">
+                </div>
+
+                <div class="setting-group checkbox-group">
+                    <input type="checkbox" id="autoPlayCheck" checked>
+                    <label for="autoPlayCheck">AUTO TRANSMIT ON ENCODE</label>
+                </div>
+
+                <div class="setting-group checkbox-group">
+                    <input type="checkbox" id="visualCheck" checked>
+                    <label for="visualCheck">VISUAL FEEDBACK</label>
+                </div>
+            </section>
+
+            <section class="history-panel panel">
+                <div class="panel-header">
+                    <h2>TRANSMISSION LOG</h2>
+                    <button id="clearHistoryBtn" class="btn-mini">CLEAR LOG</button>
+                </div>
+                <div id="historyList" class="history-list"></div>
+            </section>
+
+            <section class="manual-panel panel">
+                <div class="panel-header">
+                    <h2>MANUAL TELEGRAPH</h2>
+                </div>
+                <div class="telegraph-controls">
+                    <button id="dotBtn" class="telegraph-btn">
+                        <span class="morse-symbol">•</span>
+                        <span class="key-hint">DOT</span>
+                    </button>
+                    <button id="dashBtn" class="telegraph-btn">
+                        <span class="morse-symbol">−</span>
+                        <span class="key-hint">DASH</span>
+                    </button>
+                    <button id="spaceBtn" class="telegraph-btn">
+                        <span class="morse-symbol">␣</span>
+                        <span class="key-hint">SPACE</span>
+                    </button>
+                </div>
+                <div class="manual-output">
+                    <div id="manualMorse" class="morse-display"></div>
+                    <div id="manualText" class="text-display"></div>
+                </div>
+                <button id="clearManualBtn" class="btn btn-secondary">CLEAR</button>
+            </section>
+
+            <section class="reference-panel panel">
+                <div class="panel-header">
+                    <h2>MORSE CODE REFERENCE</h2>
+                </div>
+                <div class="morse-table" id="morseTable"></div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>MorseWave v1.0.0 | Built with Rust + WebAssembly | © 2025</p>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
