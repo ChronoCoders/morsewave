@@ -1,6 +1,6 @@
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
-use serde::{Deserialize, Serialize};
 use web_sys::AudioContext;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -15,21 +15,68 @@ pub struct MorseCodec {
     decode_map: HashMap<&'static str, char>,
 }
 
+impl Default for MorseCodec {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MorseCodec {
     pub fn new() -> Self {
         let pairs = vec![
-            ('A', ".-"), ('B', "-..."), ('C', "-.-."), ('D', "-.."), ('E', "."),
-            ('F', "..-."), ('G', "--."), ('H', "...."), ('I', ".."), ('J', ".---"),
-            ('K', "-.-"), ('L', ".-.."), ('M', "--"), ('N', "-."), ('O', "---"),
-            ('P', ".--."), ('Q', "--.-"), ('R', ".-."), ('S', "..."), ('T', "-"),
-            ('U', "..-"), ('V', "...-"), ('W', ".--"), ('X', "-..-"), ('Y', "-.--"),
-            ('Z', "--.."), ('0', "-----"), ('1', ".----"), ('2', "..---"),
-            ('3', "...--"), ('4', "....-"), ('5', "....."), ('6', "-...."),
-            ('7', "--..."), ('8', "---.."), ('9', "----."), ('.', ".-.-.-"),
-            (',', "--..--"), ('?', "..--.."), ('!', "-.-.--"), ('/', "-..-."),
-            ('(', "-.--."), (')', "-.--.-"), ('&', ".-..."), (':', "---..."),
-            (';', "-.-.-."), ('=', "-...-"), ('+', ".-.-."), ('-', "-....-"),
-            ('_', "..--.-"), ('"', ".-..-."), ('$', "...-..-"), ('@', ".--.-."),
+            ('A', ".-"),
+            ('B', "-..."),
+            ('C', "-.-."),
+            ('D', "-.."),
+            ('E', "."),
+            ('F', "..-."),
+            ('G', "--."),
+            ('H', "...."),
+            ('I', ".."),
+            ('J', ".---"),
+            ('K', "-.-"),
+            ('L', ".-.."),
+            ('M', "--"),
+            ('N', "-."),
+            ('O', "---"),
+            ('P', ".--."),
+            ('Q', "--.-"),
+            ('R', ".-."),
+            ('S', "..."),
+            ('T', "-"),
+            ('U', "..-"),
+            ('V', "...-"),
+            ('W', ".--"),
+            ('X', "-..-"),
+            ('Y', "-.--"),
+            ('Z', "--.."),
+            ('0', "-----"),
+            ('1', ".----"),
+            ('2', "..---"),
+            ('3', "...--"),
+            ('4', "....-"),
+            ('5', "....."),
+            ('6', "-...."),
+            ('7', "--..."),
+            ('8', "---.."),
+            ('9', "----."),
+            ('.', ".-.-.-"),
+            (',', "--..--"),
+            ('?', "..--.."),
+            ('!', "-.-.--"),
+            ('/', "-..-."),
+            ('(', "-.--."),
+            (')', "-.--.-"),
+            ('&', ".-..."),
+            (':', "---..."),
+            (';', "-.-.-."),
+            ('=', "-...-"),
+            ('+', ".-.-."),
+            ('-', "-....-"),
+            ('_', "..--.-"),
+            ('"', ".-..-."),
+            ('$', "...-..-"),
+            ('@', ".--.-."),
             (' ', "/"),
         ];
 
@@ -41,7 +88,10 @@ impl MorseCodec {
             decode_map.insert(*morse, *ch);
         }
 
-        MorseCodec { encode_map, decode_map }
+        MorseCodec {
+            encode_map,
+            decode_map,
+        }
     }
 
     pub fn encode(&self, text: &str) -> String {
@@ -66,6 +116,12 @@ pub struct MorseWave {
     codec: MorseCodec,
 }
 
+impl Default for MorseWave {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[wasm_bindgen]
 impl MorseWave {
     #[wasm_bindgen(constructor)]
@@ -85,9 +141,9 @@ impl MorseWave {
     }
 
     pub fn validate_morse(&self, morse: &str) -> bool {
-        morse.split_whitespace().all(|code| {
-            code.chars().all(|c| c == '.' || c == '-' || c == '/')
-        })
+        morse
+            .split_whitespace()
+            .all(|code| code.chars().all(|c| c == '.' || c == '-' || c == '/'))
     }
 }
 
@@ -103,7 +159,7 @@ impl AudioPlayer {
     pub fn new(wpm: f64) -> Result<AudioPlayer, JsValue> {
         let context = AudioContext::new()?;
         let dot_duration = 1200.0 / wpm;
-        
+
         Ok(AudioPlayer {
             context,
             dot_duration,
@@ -143,7 +199,7 @@ impl AudioPlayer {
         let gain_node = self.context.create_gain()?;
 
         oscillator.set_type(web_sys::OscillatorType::Sine);
-        
+
         let freq_param = oscillator.frequency();
         freq_param.set_value(800.0);
 
