@@ -2,10 +2,22 @@
 name = "morsewave"
 version = "0.1.0"
 edition = "2021"
-description = "Retro-futuristic Morse code encoder/decoder built with Rust and WebAssembly"
-repository = "https://github.com/chronocoder/morsewave"
+description = "High-performance Morse code encoder/decoder with WebAssembly support and Web Audio API playback"
+repository = "https://github.com/ChronoCoders/morsewave"
+homepage = "https://chronocoders.github.io/morsewave"
+documentation = "https://docs.rs/morsewave"
+readme = "README.md"
 license = "MIT"
-authors = ["Chronocoder"]
+authors = ["ChronoCoders"]
+keywords = ["morse", "morse-code", "wasm", "webassembly", "audio"]
+categories = ["wasm", "multimedia::audio", "encoding", "web-programming"]
+exclude = [
+    "www/*",
+    "docs/*",
+    "target/*",
+    "wiki/*",
+    "*.bat",
+]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
